@@ -11,6 +11,7 @@ const Home = () => {
 		[undefined, undefined, undefined]
 	]);
 
+	const [moves, setMoves] = useState(0);
 	const [turn, setTurn] = useState("X");
 	const [won, setWon] = useState(false);
 
@@ -21,7 +22,9 @@ const Home = () => {
 			let aux = ticTacToe;
 			aux[rowIndex][colIndex] = turn;
 			setTicTacToe(aux);
+			setMoves(moves + 1);
 			if (!checkWinner()) changeTurn();
+			console.log(moves);
 		}
 		else {
 			alert("This place is taken... sorry!");
@@ -87,12 +90,13 @@ const Home = () => {
 		]);
 		setWon(false);
 		setTurn("X");
+		setMoves(0);
 	};
 
 	return (
 		<div className="text-center d-flex flex-column w-50 mx-auto m-5">
-			<h1 className="mb-4">It's {turn === "X" ? <FontAwesomeIcon icon={faX} /> : <FontAwesomeIcon icon={faCircle} />} turn</h1>
-			<h2 className={won ? "show" : "hidden"}>{turn === "X" ? <FontAwesomeIcon icon={faX} /> : <FontAwesomeIcon icon={faCircle} />} is the winner!!</h2>
+			<h1 className="mb-4">Tic Tac Toe</h1>
+			<p>It's {turn === "X" ? <FontAwesomeIcon icon={faX} /> : <FontAwesomeIcon icon={faCircle} />} turn</p>
 			<table className="mb-3">
 				<tbody>
 					{ticTacToe.map((row, rowIndex) => (
@@ -108,7 +112,9 @@ const Home = () => {
 					))}
 				</tbody>
 			</table>
-			<button className="btn btn-outline-light" onClick={reset}>Play again</button>
+			<h3 className={won ? "show" : "hidden"}>{turn === "X" ? <FontAwesomeIcon icon={faX} /> : <FontAwesomeIcon icon={faCircle} />} is the winner!!</h3>
+			<p className={((moves === 9) && !won) ? "show" : "hidden"}>There has been a tie, refresh the game</p>
+			<button className="btn btn-outline-light mt-2" onClick={reset}>Play again</button>
 		</div>
 	);
 };
